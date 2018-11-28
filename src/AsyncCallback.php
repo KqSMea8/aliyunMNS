@@ -1,4 +1,5 @@
 <?php
+
 namespace AliyunMNS;
 
 use AliyunMNS\Exception\MnsException;
@@ -25,5 +26,3 @@ class AsyncCallback
         return call_user_func($this->failedCallback, $e);
     }
 }
-
-?>

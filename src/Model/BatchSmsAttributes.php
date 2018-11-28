@@ -1,4 +1,5 @@
 <?php
+
 namespace AliyunMNS\Model;
 
 use AliyunMNS\Constants;
@@ -16,7 +17,7 @@ class BatchSmsAttributes
     public $smsParams;
 
     public function __construct(
-        $freeSignName, $templateCode, $smsParams=null)
+        $freeSignName, $templateCode, $smsParams = null)
     {
         $this->freeSignName = $freeSignName;
         $this->templateCode = $templateCode;
@@ -45,14 +46,12 @@ class BatchSmsAttributes
 
     public function addReceiver($phone, $params)
     {
-        if (!is_array($params))
-        {
-            throw new MnsException(400, "Params Should be Array!");
+        if (!is_array($params)) {
+            throw new MnsException(400, 'Params Should be Array!');
         }
 
-        if ($this->smsParams == null)
-        {
-            $this->smsParams = array();
+        if (null == $this->smsParams) {
+            $this->smsParams = [];
         }
 
         $this->smsParams[$phone] = $params;
@@ -65,33 +64,25 @@ class BatchSmsAttributes
 
     public function writeXML(\XMLWriter $xmlWriter)
     {
-        $jsonArray = array("Type" => "multiContent");
-        if ($this->freeSignName !== NULL)
-        {
+        $jsonArray = ['Type' => 'multiContent'];
+        if (null !== $this->freeSignName) {
             $jsonArray[Constants::FREE_SIGN_NAME] = $this->freeSignName;
         }
-        if ($this->templateCode !== NULL)
-        {
+        if (null !== $this->templateCode) {
             $jsonArray[Constants::TEMPLATE_CODE] = $this->templateCode;
         }
 
-        if ($this->smsParams != null)
-        {
-            if (!is_array($this->smsParams))
-            {
-                throw new MnsException(400, "SmsParams should be an array!");
+        if (null != $this->smsParams) {
+            if (!is_array($this->smsParams)) {
+                throw new MnsException(400, 'SmsParams should be an array!');
             }
-            if (!empty($this->smsParams))
-            {
+            if (!empty($this->smsParams)) {
                 $jsonArray[Constants::SMS_PARAMS] = json_encode($this->smsParams, JSON_FORCE_OBJECT);
             }
         }
 
-        if (!empty($jsonArray))
-        {
+        if (!empty($jsonArray)) {
             $xmlWriter->writeElement(Constants::DIRECT_SMS, json_encode($jsonArray));
         }
     }
 }
-
-?>

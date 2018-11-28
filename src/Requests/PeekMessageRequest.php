@@ -1,8 +1,6 @@
 <?php
-namespace AliyunMNS\Requests;
 
-use AliyunMNS\Constants;
-use AliyunMNS\Requests\BaseRequest;
+namespace AliyunMNS\Requests;
 
 class PeekMessageRequest extends BaseRequest
 {
@@ -10,7 +8,7 @@ class PeekMessageRequest extends BaseRequest
 
     public function __construct($queueName)
     {
-        parent::__construct('get', 'queues/' . $queueName . '/messages?peekonly=true');
+        parent::__construct('get', 'queues/'.$queueName.'/messages?peekonly=true');
 
         $this->queueName = $queueName;
     }
@@ -22,12 +20,11 @@ class PeekMessageRequest extends BaseRequest
 
     public function generateBody()
     {
-        return NULL;
+        return null;
     }
 
     public function generateQueryString()
     {
-        return NULL;
+        return null;
     }
 }
-?>

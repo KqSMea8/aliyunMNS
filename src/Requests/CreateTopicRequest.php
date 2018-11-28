@@ -1,8 +1,8 @@
 <?php
+
 namespace AliyunMNS\Requests;
 
 use AliyunMNS\Constants;
-use AliyunMNS\Requests\BaseRequest;
 use AliyunMNS\Model\TopicAttributes;
 
 class CreateTopicRequest extends BaseRequest
@@ -10,13 +10,12 @@ class CreateTopicRequest extends BaseRequest
     private $topicName;
     private $attributes;
 
-    public function __construct($topicName, TopicAttributes $attributes = NULL)
+    public function __construct($topicName, TopicAttributes $attributes = null)
     {
-        parent::__construct('put', 'topics/' . $topicName);
+        parent::__construct('put', 'topics/'.$topicName);
 
-        if ($attributes == NULL)
-        {
-            $attributes = new TopicAttributes;
+        if (null == $attributes) {
+            $attributes = new TopicAttributes();
         }
 
         $this->topicName = $topicName;
@@ -35,19 +34,19 @@ class CreateTopicRequest extends BaseRequest
 
     public function generateBody()
     {
-        $xmlWriter = new \XMLWriter;
+        $xmlWriter = new \XMLWriter();
         $xmlWriter->openMemory();
-        $xmlWriter->startDocument("1.0", "UTF-8");
-        $xmlWriter->startElementNS(NULL, "Topic", Constants::MNS_XML_NAMESPACE);
+        $xmlWriter->startDocument('1.0', 'UTF-8');
+        $xmlWriter->startElementNS(null, 'Topic', Constants::MNS_XML_NAMESPACE);
         $this->attributes->writeXML($xmlWriter);
         $xmlWriter->endElement();
         $xmlWriter->endDocument();
+
         return $xmlWriter->outputMemory();
     }
 
     public function generateQueryString()
     {
-        return NULL;
+        return null;
     }
 }
-?>

@@ -1,9 +1,6 @@
 <?php
-namespace AliyunMNS\Requests;
 
-use AliyunMNS\Constants;
-use AliyunMNS\Requests\BaseRequest;
-use AliyunMNS\Model\TopicAttributes;
+namespace AliyunMNS\Requests;
 
 class DeleteTopicRequest extends BaseRequest
 {
@@ -11,7 +8,7 @@ class DeleteTopicRequest extends BaseRequest
 
     public function __construct($topicName)
     {
-        parent::__construct('delete', 'topics/' . $topicName);
+        parent::__construct('delete', 'topics/'.$topicName);
         $this->topicName = $topicName;
     }
 
@@ -22,12 +19,11 @@ class DeleteTopicRequest extends BaseRequest
 
     public function generateBody()
     {
-        return NULL;
+        return null;
     }
 
     public function generateQueryString()
     {
-        return NULL;
+        return null;
     }
 }
-?>

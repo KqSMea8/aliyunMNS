@@ -1,4 +1,5 @@
 <?php
+
 namespace AliyunMNS\Model;
 
 use AliyunMNS\Constants;
@@ -9,18 +10,18 @@ class UpdateSubscriptionAttributes
 
     private $strategy;
 
-    # may change in AliyunMNS\Topic
+    // may change in AliyunMNS\Topic
     private $topicName;
 
     public function __construct(
-        $subscriptionName = NULL,
-        $strategy = NULL)
+        $subscriptionName = null,
+        $strategy = null)
     {
         $this->subscriptionName = $subscriptionName;
 
         $this->strategy = $strategy;
     }
-    
+
     public function getStrategy()
     {
         return $this->strategy;
@@ -48,11 +49,8 @@ class UpdateSubscriptionAttributes
 
     public function writeXML(\XMLWriter $xmlWriter)
     {
-        if ($this->strategy != NULL)
-        {
+        if (null != $this->strategy) {
             $xmlWriter->writeElement(Constants::STRATEGY, $this->strategy);
         }
     }
 }
-
-?>

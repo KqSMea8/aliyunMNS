@@ -1,10 +1,9 @@
 <?php
+
 namespace AliyunMNS\Responses;
 
-use GuzzleHttp\Promise\PromiseInterface;
-use AliyunMNS\Responses\BaseResponse;
-use AliyunMNS\Exception\MnsException;
 use GuzzleHttp\Exception\TransferException;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class MnsPromise
@@ -20,7 +19,7 @@ class MnsPromise
 
     public function isCompleted()
     {
-        return $this->promise->getState() != 'pending';
+        return 'pending' != $this->promise->getState();
     }
 
     public function getResponse()
@@ -32,8 +31,7 @@ class MnsPromise
     {
         try {
             $res = $this->promise->wait();
-            if ($res instanceof ResponseInterface)
-            {
+            if ($res instanceof ResponseInterface) {
                 $this->response->parseResponse($res->getStatusCode(), $res->getBody());
             }
         } catch (TransferException $e) {
@@ -43,8 +41,7 @@ class MnsPromise
             }
             $this->response->parseErrorResponse($e->getCode(), $message);
         }
+
         return $this->response;
     }
 }
-
-?>

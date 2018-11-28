@@ -1,4 +1,5 @@
 <?php
+
 namespace AliyunMNS\Model;
 
 use AliyunMNS\Constants;
@@ -19,13 +20,10 @@ class SendMessageResponseItem
     public function __construct($isSucceed, $param1, $param2)
     {
         $this->isSucceed = $isSucceed;
-        if ($isSucceed == TRUE)
-        {
+        if (true == $isSucceed) {
             $this->messageId = $param1;
             $this->messageBodyMD5 = $param2;
-        }
-        else
-        {
+        } else {
             $this->errorCode = $param1;
             $this->errorMessage = $param2;
         }
@@ -46,74 +44,59 @@ class SendMessageResponseItem
         return $this->errorMessage;
     }
 
-    static public function fromXML($xmlReader)
+    public static function fromXML($xmlReader)
     {
-        $messageId = NULL;
-        $messageBodyMD5 = NULL;
-        $errorCode = NULL;
-        $errorMessage = NULL;
+        $messageId = null;
+        $messageBodyMD5 = null;
+        $errorCode = null;
+        $errorMessage = null;
 
-        while ($xmlReader->read())
-        {
-            switch ($xmlReader->nodeType)
-            {
+        while ($xmlReader->read()) {
+            switch ($xmlReader->nodeType) {
             case \XMLReader::ELEMENT:
                 switch ($xmlReader->name) {
                 case Constants::MESSAGE_ID:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $messageId = $xmlReader->value;
                     }
                     break;
                 case Constants::MESSAGE_BODY_MD5:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $messageBodyMD5 = $xmlReader->value;
                     }
                     break;
                 case Constants::ERROR_CODE:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $errorCode = $xmlReader->value;
                     }
                     break;
                 case Constants::ERROR_MESSAGE:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $errorMessage = $xmlReader->value;
                     }
                     break;
                 }
                 break;
             case \XMLReader::END_ELEMENT:
-                if ($xmlReader->name == 'Message')
-                {
-                    if ($messageId != NULL)
-                    {
-                        return new SendMessageResponseItem(TRUE, $messageId, $messageBodyMD5);
-                    }
-                    else
-                    {
-                        return new SendMessageResponseItem(FALSE, $errorCode, $errorMessage);
+                if ('Message' == $xmlReader->name) {
+                    if (null != $messageId) {
+                        return new SendMessageResponseItem(true, $messageId, $messageBodyMD5);
+                    } else {
+                        return new SendMessageResponseItem(false, $errorCode, $errorMessage);
                     }
                 }
                 break;
             }
         }
 
-        if ($messageId != NULL)
-        {
-            return new SendMessageResponseItem(TRUE, $messageId, $messageBodyMD5);
-        }
-        else
-        {
-            return new SendMessageResponseItem(FALSE, $errorCode, $errorMessage);
+        if (null != $messageId) {
+            return new SendMessageResponseItem(true, $messageId, $messageBodyMD5);
+        } else {
+            return new SendMessageResponseItem(false, $errorCode, $errorMessage);
         }
     }
 }
-
-?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace AliyunMNS\Model;
 
 use AliyunMNS\Constants;
@@ -21,43 +22,38 @@ class Message
         $this->receiptHandle = $receiptHandle;
     }
 
-    static public function fromXML(\XMLReader $xmlReader, $base64)
+    public static function fromXML(\XMLReader $xmlReader, $base64)
     {
-        $messageId = NULL;
-        $messageBodyMD5 = NULL;
-        $messageBody = NULL;
-        $enqueueTime = NULL;
-        $nextVisibleTime = NULL;
-        $firstDequeueTime = NULL;
-        $dequeueCount = NULL;
-        $priority = NULL;
-        $receiptHandle = NULL;
+        $messageId = null;
+        $messageBodyMD5 = null;
+        $messageBody = null;
+        $enqueueTime = null;
+        $nextVisibleTime = null;
+        $firstDequeueTime = null;
+        $dequeueCount = null;
+        $priority = null;
+        $receiptHandle = null;
 
-        while ($xmlReader->read())
-        {
-            switch ($xmlReader->nodeType)
-            {
+        while ($xmlReader->read()) {
+            switch ($xmlReader->nodeType) {
             case \XMLReader::ELEMENT:
                 switch ($xmlReader->name) {
                 case Constants::MESSAGE_ID:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $messageId = $xmlReader->value;
                     }
                     break;
                 case Constants::MESSAGE_BODY_MD5:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $messageBodyMD5 = $xmlReader->value;
                     }
                     break;
                 case Constants::MESSAGE_BODY:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
-                        if ($base64 == TRUE) {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
+                        if (true == $base64) {
                             $messageBody = base64_decode($xmlReader->value);
                         } else {
                             $messageBody = $xmlReader->value;
@@ -66,51 +62,44 @@ class Message
                     break;
                 case Constants::ENQUEUE_TIME:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $enqueueTime = $xmlReader->value;
                     }
                     break;
                 case Constants::NEXT_VISIBLE_TIME:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $nextVisibleTime = $xmlReader->value;
                     }
                     break;
                 case Constants::FIRST_DEQUEUE_TIME:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $firstDequeueTime = $xmlReader->value;
                     }
                     break;
                 case Constants::DEQUEUE_COUNT:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $dequeueCount = $xmlReader->value;
                     }
                     break;
                 case Constants::PRIORITY:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $priority = $xmlReader->value;
                     }
                     break;
                 case Constants::RECEIPT_HANDLE:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $receiptHandle = $xmlReader->value;
                     }
                     break;
                 }
                 break;
             case \XMLReader::END_ELEMENT:
-                if ($xmlReader->name == 'Message')
-                {
+                if ('Message' == $xmlReader->name) {
                     $message = new Message(
                         $messageId,
                         $messageBodyMD5,
@@ -121,6 +110,7 @@ class Message
                         $dequeueCount,
                         $priority,
                         $receiptHandle);
+
                     return $message;
                 }
                 break;
@@ -141,5 +131,3 @@ class Message
         return $message;
     }
 }
-
-?>

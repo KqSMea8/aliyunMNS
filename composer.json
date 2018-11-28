@@ -1,26 +1,39 @@
 {
-    "name": "miant/aliyunmns",
-    "description": "AliyunMNS SDK for php",
-    "license": "MIT",
+    "name": "caoyuanlianni/aliyunMNS",
+    "version": "1.0.0",
+    "description": "AliyunMNS ( Version 1.3.5 ) SDK for PHP.",
+    "type": "library",
+    "license": "Apache",
+    "keywords": [
+        "aliyun",
+        "mns"
+    ],
     "authors": [
         {
-            "name": "muliangliang",
-            "email": "mliangs@163.com"
+            "name": "caowei",
+            "email": "caoyuanlianni@foxmail.com"
         }
     ],
     "require": {
         "guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "7.4.*"
     },
     "autoload": {
         "psr-4": {
             "AliyunMNS\\": "src"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "AliyunMNS\\ServiceProvider"
-            ]
+    "autoload-dev": {
+        "psr-4": {
+            "AliyunMNS\\": "tests/"
+        }
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
         }
     }
 }

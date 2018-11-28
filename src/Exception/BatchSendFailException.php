@@ -1,8 +1,8 @@
 <?php
+
 namespace AliyunMNS\Exception;
 
 use AliyunMNS\Constants;
-use AliyunMNS\Exception\MnsException;
 use AliyunMNS\Model\SendMessageResponseItem;
 
 /**
@@ -14,11 +14,11 @@ class BatchSendFailException extends MnsException
 {
     protected $sendMessageResponseItems;
 
-    public function __construct($code, $message, $previousException = NULL, $requestId = NULL, $hostId = NULL)
+    public function __construct($code, $message, $previousException = null, $requestId = null, $hostId = null)
     {
         parent::__construct($code, $message, $previousException, Constants::BATCH_SEND_FAIL, $requestId, $hostId);
 
-        $this->sendMessageResponseItems = array();
+        $this->sendMessageResponseItems = [];
     }
 
     public function addSendMessageResponseItem(SendMessageResponseItem $item)
@@ -31,5 +31,3 @@ class BatchSendFailException extends MnsException
         return $this->sendMessageResponseItems;
     }
 }
-
-?>

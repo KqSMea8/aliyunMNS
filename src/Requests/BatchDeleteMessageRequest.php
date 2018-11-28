@@ -1,8 +1,8 @@
 <?php
+
 namespace AliyunMNS\Requests;
 
 use AliyunMNS\Constants;
-use AliyunMNS\Requests\BaseRequest;
 
 class BatchDeleteMessageRequest extends BaseRequest
 {
@@ -11,7 +11,7 @@ class BatchDeleteMessageRequest extends BaseRequest
 
     public function __construct($queueName, array $receiptHandles)
     {
-        parent::__construct('delete', 'queues/' . $queueName . '/messages');
+        parent::__construct('delete', 'queues/'.$queueName.'/messages');
 
         $this->queueName = $queueName;
         $this->receiptHandles = $receiptHandles;
@@ -29,22 +29,21 @@ class BatchDeleteMessageRequest extends BaseRequest
 
     public function generateBody()
     {
-        $xmlWriter = new \XMLWriter;
+        $xmlWriter = new \XMLWriter();
         $xmlWriter->openMemory();
-        $xmlWriter->startDocument("1.0", "UTF-8");
-        $xmlWriter->startElementNS(NULL, Constants::RECEIPT_HANDLES, Constants::MNS_XML_NAMESPACE);
-        foreach ($this->receiptHandles as $receiptHandle)
-        {
+        $xmlWriter->startDocument('1.0', 'UTF-8');
+        $xmlWriter->startElementNS(null, Constants::RECEIPT_HANDLES, Constants::MNS_XML_NAMESPACE);
+        foreach ($this->receiptHandles as $receiptHandle) {
             $xmlWriter->writeElement(Constants::RECEIPT_HANDLE, $receiptHandle);
         }
         $xmlWriter->endElement();
         $xmlWriter->endDocument();
+
         return $xmlWriter->outputMemory();
     }
 
     public function generateQueryString()
     {
-        return NULL;
+        return null;
     }
 }
-?>

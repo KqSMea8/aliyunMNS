@@ -1,4 +1,5 @@
 <?php
+
 namespace AliyunMNS\Exception;
 
 class MnsException extends \RuntimeException
@@ -7,19 +8,15 @@ class MnsException extends \RuntimeException
     private $requestId;
     private $hostId;
 
-    public function __construct($code, $message, $previousException = NULL, $mnsErrorCode = NULL, $requestId = NULL, $hostId = NULL)
+    public function __construct($code, $message, $previousException = null, $mnsErrorCode = null, $requestId = null, $hostId = null)
     {
         parent::__construct($message, $code, $previousException);
 
-        if ($mnsErrorCode == NULL)
-        {
-            if ($code >= 500)
-            {
-                $mnsErrorCode = "ServerError";
-            }
-            else
-            {
-                $mnsErrorCode = "ClientError";
+        if (null == $mnsErrorCode) {
+            if ($code >= 500) {
+                $mnsErrorCode = 'ServerError';
+            } else {
+                $mnsErrorCode = 'ClientError';
             }
         }
         $this->mnsErrorCode = $mnsErrorCode;
@@ -30,19 +27,17 @@ class MnsException extends \RuntimeException
 
     public function __toString()
     {
-        $str = "Code: " . $this->getCode() . " Message: " . $this->getMessage();
-        if ($this->mnsErrorCode != NULL)
-        {
-            $str .= " MnsErrorCode: " . $this->mnsErrorCode;
+        $str = 'Code: '.$this->getCode().' Message: '.$this->getMessage();
+        if (null != $this->mnsErrorCode) {
+            $str .= ' MnsErrorCode: '.$this->mnsErrorCode;
         }
-        if ($this->requestId != NULL)
-        {
-            $str .= " RequestId: " . $this->requestId;
+        if (null != $this->requestId) {
+            $str .= ' RequestId: '.$this->requestId;
         }
-        if ($this->hostId != NULL)
-        {
-            $str .= " HostId: " . $this->hostId;
+        if (null != $this->hostId) {
+            $str .= ' HostId: '.$this->hostId;
         }
+
         return $str;
     }
 
@@ -61,5 +56,3 @@ class MnsException extends \RuntimeException
         return $this->hostId;
     }
 }
-
-?>

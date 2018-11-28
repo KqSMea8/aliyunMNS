@@ -1,4 +1,5 @@
 <?php
+
 namespace AliyunMNS\Model;
 
 use AliyunMNS\Constants;
@@ -31,45 +32,38 @@ class DeleteMessageErrorItem
         return $this->receiptHandle;
     }
 
-    static public function fromXML($xmlReader)
+    public static function fromXML($xmlReader)
     {
-        $errorCode = NULL;
-        $errorMessage = NULL;
-        $receiptHandle = NULL;
+        $errorCode = null;
+        $errorMessage = null;
+        $receiptHandle = null;
 
-        while ($xmlReader->read())
-        {
-            switch ($xmlReader->nodeType)
-            {
+        while ($xmlReader->read()) {
+            switch ($xmlReader->nodeType) {
             case \XMLReader::ELEMENT:
-                switch ($xmlReader->name)
-                {
+                switch ($xmlReader->name) {
                 case Constants::ERROR_CODE:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $errorCode = $xmlReader->value;
                     }
                     break;
                 case Constants::ERROR_MESSAGE:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $errorMessage = $xmlReader->value;
                     }
                     break;
                 case Constants::RECEIPT_HANDLE:
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $receiptHandle = $xmlReader->value;
                     }
                     break;
                 }
                 break;
             case \XMLReader::END_ELEMENT:
-                if ($xmlReader->name == Constants::ERROR)
-                {
+                if (Constants::ERROR == $xmlReader->name) {
                     return new DeleteMessageErrorItem($errorCode, $errorMessage, $receiptHandle);
                 }
                 break;
@@ -79,5 +73,3 @@ class DeleteMessageErrorItem
         return new DeleteMessageErrorItem($errorCode, $errorMessage, $receiptHandle);
     }
 }
-
-?>

@@ -1,12 +1,12 @@
 <?php
+
 namespace AliyunMNS\Responses;
 
+use AliyunMNS\Common\XMLParser;
 use AliyunMNS\Constants;
+use AliyunMNS\Exception\MessageNotExistException;
 use AliyunMNS\Exception\MnsException;
 use AliyunMNS\Exception\QueueNotExistException;
-use AliyunMNS\Exception\MessageNotExistException;
-use AliyunMNS\Responses\BaseResponse;
-use AliyunMNS\Common\XMLParser;
 use AliyunMNS\Traits\MessagePropertiesForPeek;
 
 class PeekMessageResponse extends BaseResponse
@@ -16,7 +16,7 @@ class PeekMessageResponse extends BaseResponse
     // boolean, whether the message body will be decoded as base64
     private $base64;
 
-    public function __construct($base64 = TRUE)
+    public function __construct($base64 = true)
     {
         $this->base64 = $base64;
     }
@@ -28,14 +28,14 @@ class PeekMessageResponse extends BaseResponse
 
     public function isBase64()
     {
-        return ($this->base64 == TRUE);
+        return true == $this->base64;
     }
 
     public function parseResponse($statusCode, $content)
     {
         $this->statusCode = $statusCode;
-        if ($statusCode == 200) {
-            $this->succeed = TRUE;
+        if (200 == $statusCode) {
+            $this->succeed = true;
         } else {
             $this->parseErrorResponse($statusCode, $content);
         }
@@ -49,29 +49,26 @@ class PeekMessageResponse extends BaseResponse
         } catch (\Throwable $t) {
             throw new MnsException($statusCode, $t->getMessage());
         }
-
     }
 
-    public function parseErrorResponse($statusCode, $content, MnsException $exception = NULL)
+    public function parseErrorResponse($statusCode, $content, MnsException $exception = null)
     {
-        $this->succeed = FALSE;
+        $this->succeed = false;
         $xmlReader = $this->loadXmlContent($content);
 
         try {
             $result = XMLParser::parseNormalError($xmlReader);
-            if ($result['Code'] == Constants::QUEUE_NOT_EXIST)
-            {
+            if (Constants::QUEUE_NOT_EXIST == $result['Code']) {
                 throw new QueueNotExistException($statusCode, $result['Message'], $exception, $result['Code'], $result['RequestId'], $result['HostId']);
             }
-            if ($result['Code'] == Constants::MESSAGE_NOT_EXIST)
-            {
+            if (Constants::MESSAGE_NOT_EXIST == $result['Code']) {
                 throw new MessageNotExistException($statusCode, $result['Message'], $exception, $result['Code'], $result['RequestId'], $result['HostId']);
             }
             throw new MnsException($statusCode, $result['Message'], $exception, $result['Code'], $result['RequestId'], $result['HostId']);
         } catch (\Exception $e) {
-            if ($exception != NULL) {
+            if (null != $exception) {
                 throw $exception;
-            } elseif($e instanceof MnsException) {
+            } elseif ($e instanceof MnsException) {
                 throw $e;
             } else {
                 throw new MnsException($statusCode, $e->getMessage());
@@ -81,5 +78,3 @@ class PeekMessageResponse extends BaseResponse
         }
     }
 }
-
-?>

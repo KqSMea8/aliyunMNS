@@ -1,5 +1,7 @@
 <?php
+
 namespace AliyunMNS\Responses;
+
 use AliyunMNS\Exception\MnsException;
 
 abstract class BaseResponse
@@ -23,17 +25,17 @@ abstract class BaseResponse
     {
         $xmlReader = new \XMLReader();
         $isXml = $xmlReader->XML($content);
-        if ($isXml === FALSE) {
+        if (false === $isXml) {
             throw new MnsException($this->statusCode, $content);
         }
         try {
-            while ($xmlReader->read()) {}
+            while ($xmlReader->read()) {
+            }
         } catch (\Exception $e) {
             throw new MnsException($this->statusCode, $content);
         }
         $xmlReader->XML($content);
+
         return $xmlReader;
     }
 }
-
-?>

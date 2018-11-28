@@ -1,7 +1,6 @@
 <?php
-namespace AliyunMNS\Requests;
 
-use AliyunMNS\Requests\BaseRequest;
+namespace AliyunMNS\Requests;
 
 class UnsubscribeRequest extends BaseRequest
 {
@@ -10,7 +9,7 @@ class UnsubscribeRequest extends BaseRequest
 
     public function __construct($topicName, $subscriptionName)
     {
-        parent::__construct('delete', 'topics/' . $topicName . '/subscriptions/' . $subscriptionName);
+        parent::__construct('delete', 'topics/'.$topicName.'/subscriptions/'.$subscriptionName);
         $this->topicName = $topicName;
         $this->subscriptionName = $subscriptionName;
     }
@@ -27,13 +26,11 @@ class UnsubscribeRequest extends BaseRequest
 
     public function generateBody()
     {
-        return NULL;
+        return null;
     }
 
     public function generateQueryString()
     {
-        return NULL;
+        return null;
     }
 }
-
-?>

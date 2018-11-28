@@ -1,26 +1,24 @@
 <?php
+
 namespace AliyunMNS;
 
-use AliyunMNS\Queue;
-use AliyunMNS\Config;
 use AliyunMNS\Http\HttpClient;
-use AliyunMNS\AsyncCallback;
 use AliyunMNS\Model\AccountAttributes;
 use AliyunMNS\Requests\CreateQueueRequest;
-use AliyunMNS\Responses\CreateQueueResponse;
-use AliyunMNS\Requests\ListQueueRequest;
-use AliyunMNS\Responses\ListQueueResponse;
-use AliyunMNS\Requests\DeleteQueueRequest;
-use AliyunMNS\Responses\DeleteQueueResponse;
 use AliyunMNS\Requests\CreateTopicRequest;
-use AliyunMNS\Responses\CreateTopicResponse;
+use AliyunMNS\Requests\DeleteQueueRequest;
 use AliyunMNS\Requests\DeleteTopicRequest;
-use AliyunMNS\Responses\DeleteTopicResponse;
-use AliyunMNS\Requests\ListTopicRequest;
-use AliyunMNS\Responses\ListTopicResponse;
 use AliyunMNS\Requests\GetAccountAttributesRequest;
-use AliyunMNS\Responses\GetAccountAttributesResponse;
+use AliyunMNS\Requests\ListQueueRequest;
+use AliyunMNS\Requests\ListTopicRequest;
 use AliyunMNS\Requests\SetAccountAttributesRequest;
+use AliyunMNS\Responses\CreateQueueResponse;
+use AliyunMNS\Responses\CreateTopicResponse;
+use AliyunMNS\Responses\DeleteQueueResponse;
+use AliyunMNS\Responses\DeleteTopicResponse;
+use AliyunMNS\Responses\GetAccountAttributesResponse;
+use AliyunMNS\Responses\ListQueueResponse;
+use AliyunMNS\Responses\ListTopicResponse;
 use AliyunMNS\Responses\SetAccountAttributesResponse;
 
 /**
@@ -44,7 +42,7 @@ class Client
      * @param config: necessary configs
      */
     public function __construct($endPoint, $accessId,
-        $accessKey, $securityToken = NULL, Config $config = NULL)
+        $accessKey, $securityToken = null, Config $config = null)
     {
         $this->client = new HttpClient($endPoint, $accessId,
             $accessKey, $securityToken, $config);
@@ -59,7 +57,7 @@ class Client
      *
      * @return Queue $queue: the Queue instance
      */
-    public function getQueueRef($queueName, $base64 = TRUE)
+    public function getQueueRef($queueName, $base64 = true)
     {
         return new Queue($this->client, $queueName, $base64);
     }
@@ -78,6 +76,7 @@ class Client
     public function createQueue(CreateQueueRequest $request)
     {
         $response = new CreateQueueResponse($request->getQueueName());
+
         return $this->client->sendRequest($request, $response);
     }
 
@@ -93,9 +92,10 @@ class Client
      * @throws MnsException if any exception happends
      */
     public function createQueueAsync(CreateQueueRequest $request,
-        AsyncCallback $callback = NULL)
+        AsyncCallback $callback = null)
     {
         $response = new CreateQueueResponse($request->getQueueName());
+
         return $this->client->sendRequestAsync($request, $response, $callback);
     }
 
@@ -109,13 +109,15 @@ class Client
     public function listQueue(ListQueueRequest $request)
     {
         $response = new ListQueueResponse();
+
         return $this->client->sendRequest($request, $response);
     }
 
     public function listQueueAsync(ListQueueRequest $request,
-        AsyncCallback $callback = NULL)
+        AsyncCallback $callback = null)
     {
         $response = new ListQueueResponse();
+
         return $this->client->sendRequestAsync($request, $response, $callback);
     }
 
@@ -131,18 +133,21 @@ class Client
     {
         $request = new DeleteQueueRequest($queueName);
         $response = new DeleteQueueResponse();
+
         return $this->client->sendRequest($request, $response);
     }
 
     public function deleteQueueAsync($queueName,
-        AsyncCallback $callback = NULL)
+        AsyncCallback $callback = null)
     {
         $request = new DeleteQueueRequest($queueName);
         $response = new DeleteQueueResponse();
+
         return $this->client->sendRequestAsync($request, $response, $callback);
     }
 
     // API for Topic
+
     /**
      * Returns a topic reference for operating on the topic
      * this function does not create the topic automatically.
@@ -170,6 +175,7 @@ class Client
     public function createTopic(CreateTopicRequest $request)
     {
         $response = new CreateTopicResponse($request->getTopicName());
+
         return $this->client->sendRequest($request, $response);
     }
 
@@ -185,6 +191,7 @@ class Client
     {
         $request = new DeleteTopicRequest($topicName);
         $response = new DeleteTopicResponse();
+
         return $this->client->sendRequest($request, $response);
     }
 
@@ -198,6 +205,7 @@ class Client
     public function listTopic(ListTopicRequest $request)
     {
         $response = new ListTopicResponse();
+
         return $this->client->sendRequest($request, $response);
     }
 
@@ -205,19 +213,22 @@ class Client
      * Query the AccountAttributes
      *
      * @return GetAccountAttributesResponse: the response containing topicNames
+     *
      * @throws MnsException if any exception happends
      */
     public function getAccountAttributes()
     {
         $request = new GetAccountAttributesRequest();
         $response = new GetAccountAttributesResponse();
+
         return $this->client->sendRequest($request, $response);
     }
 
-    public function getAccountAttributesAsync(AsyncCallback $callback = NULL)
+    public function getAccountAttributesAsync(AsyncCallback $callback = null)
     {
         $request = new GetAccountAttributesRequest();
         $response = new GetAccountAttributesResponse();
+
         return $this->client->sendRequestAsync($request, $response, $callback);
     }
 
@@ -234,16 +245,16 @@ class Client
     {
         $request = new SetAccountAttributesRequest($attributes);
         $response = new SetAccountAttributesResponse();
+
         return $this->client->sendRequest($request, $response);
     }
 
     public function setAccountAttributesAsync(AccountAttributes $attributes,
-        AsyncCallback $callback = NULL)
+        AsyncCallback $callback = null)
     {
         $request = new SetAccountAttributesRequest($attributes);
         $response = new SetAccountAttributesResponse();
+
         return $this->client->sendRequestAsync($request, $response, $callback);
     }
 }
-
-?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace AliyunMNS\Traits;
 
 use AliyunMNS\Constants;
@@ -41,23 +42,18 @@ trait MessagePropertiesForSend
 
     public function writeMessagePropertiesForSendXML(\XMLWriter $xmlWriter, $base64)
     {
-        if ($this->messageBody != NULL)
-        {
-            if ($base64 == TRUE) {
+        if (null != $this->messageBody) {
+            if (true == $base64) {
                 $xmlWriter->writeElement(Constants::MESSAGE_BODY, base64_encode($this->messageBody));
             } else {
                 $xmlWriter->writeElement(Constants::MESSAGE_BODY, $this->messageBody);
             }
         }
-        if ($this->delaySeconds != NULL)
-        {
+        if (null != $this->delaySeconds) {
             $xmlWriter->writeElement(Constants::DELAY_SECONDS, $this->delaySeconds);
         }
-        if ($this->priority !== NULL)
-        {
+        if (null !== $this->priority) {
             $xmlWriter->writeElement(Constants::PRIORITY, $this->priority);
         }
     }
 }
-
-?>

@@ -1,8 +1,8 @@
 <?php
+
 namespace AliyunMNS\Traits;
 
 use AliyunMNS\Model\Message;
-use AliyunMNS\Traits\MessagePropertiesForPeek;
 
 trait MessagePropertiesForReceive
 {
@@ -29,5 +29,3 @@ trait MessagePropertiesForReceive
         $this->receiptHandle = $message->getReceiptHandle();
     }
 }
-
-?>

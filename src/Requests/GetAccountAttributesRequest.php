@@ -1,7 +1,6 @@
 <?php
-namespace AliyunMNS\Requests;
 
-use AliyunMNS\Requests\BaseRequest;
+namespace AliyunMNS\Requests;
 
 class GetAccountAttributesRequest extends BaseRequest
 {
@@ -12,12 +11,11 @@ class GetAccountAttributesRequest extends BaseRequest
 
     public function generateBody()
     {
-        return NULL;
+        return null;
     }
 
     public function generateQueryString()
     {
-        return NULL;
+        return null;
     }
 }
-?>

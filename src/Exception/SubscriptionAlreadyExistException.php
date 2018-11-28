@@ -1,10 +1,7 @@
 <?php
-namespace AliyunMNS\Exception;
 
-use AliyunMNS\Exception\MnsException;
+namespace AliyunMNS\Exception;
 
 class SubscriptionAlreadyExistException extends MnsException
 {
 }
-
-?>

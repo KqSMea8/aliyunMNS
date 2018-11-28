@@ -1,14 +1,14 @@
 <?php
+
 namespace AliyunMNS\Responses;
 
+use AliyunMNS\Common\XMLParser;
 use AliyunMNS\Constants;
+use AliyunMNS\Exception\BatchDeleteFailException;
+use AliyunMNS\Exception\InvalidArgumentException;
 use AliyunMNS\Exception\MnsException;
 use AliyunMNS\Exception\QueueNotExistException;
-use AliyunMNS\Exception\InvalidArgumentException;
-use AliyunMNS\Exception\BatchDeleteFailException;
 use AliyunMNS\Exception\ReceiptHandleErrorException;
-use AliyunMNS\Responses\BaseResponse;
-use AliyunMNS\Common\XMLParser;
 use AliyunMNS\Model\DeleteMessageErrorItem;
 
 class BatchDeleteMessageResponse extends BaseResponse
@@ -20,22 +20,21 @@ class BatchDeleteMessageResponse extends BaseResponse
     public function parseResponse($statusCode, $content)
     {
         $this->statusCode = $statusCode;
-        if ($statusCode == 204) {
-            $this->succeed = TRUE;
+        if (204 == $statusCode) {
+            $this->succeed = true;
         } else {
             $this->parseErrorResponse($statusCode, $content);
         }
     }
 
-    public function parseErrorResponse($statusCode, $content, MnsException $exception = NULL)
+    public function parseErrorResponse($statusCode, $content, MnsException $exception = null)
     {
-        $this->succeed = FALSE;
+        $this->succeed = false;
         $xmlReader = $this->loadXmlContent($content);
 
         try {
-            while ($xmlReader->read())
-            {
-                if ($xmlReader->nodeType == \XMLReader::ELEMENT) {
+            while ($xmlReader->read()) {
+                if (\XMLReader::ELEMENT == $xmlReader->nodeType) {
                     switch ($xmlReader->name) {
                     case Constants::ERROR:
                         $this->parseNormalErrorResponse($xmlReader);
@@ -47,9 +46,9 @@ class BatchDeleteMessageResponse extends BaseResponse
                 }
             }
         } catch (\Exception $e) {
-            if ($exception != NULL) {
+            if (null != $exception) {
                 throw $exception;
-            } elseif($e instanceof MnsException) {
+            } elseif ($e instanceof MnsException) {
                 throw $e;
             } else {
                 throw new MnsException($statusCode, $e->getMessage());
@@ -61,11 +60,10 @@ class BatchDeleteMessageResponse extends BaseResponse
 
     private function parseBatchDeleteErrorResponse($xmlReader)
     {
-        $ex = new BatchDeleteFailException($this->statusCode, "BatchDeleteMessage Failed For Some ReceiptHandles");
-        while ($xmlReader->read())
-        {
-            if ($xmlReader->nodeType == \XMLReader::ELEMENT && $xmlReader->name == Constants::ERROR) {
-                $ex->addDeleteMessageErrorItem( DeleteMessageErrorItem::fromXML($xmlReader));
+        $ex = new BatchDeleteFailException($this->statusCode, 'BatchDeleteMessage Failed For Some ReceiptHandles');
+        while ($xmlReader->read()) {
+            if (\XMLReader::ELEMENT == $xmlReader->nodeType && Constants::ERROR == $xmlReader->name) {
+                $ex->addDeleteMessageErrorItem(DeleteMessageErrorItem::fromXML($xmlReader));
             }
         }
         throw $ex;
@@ -75,21 +73,16 @@ class BatchDeleteMessageResponse extends BaseResponse
     {
         $result = XMLParser::parseNormalError($xmlReader);
 
-        if ($result['Code'] == Constants::INVALID_ARGUMENT)
-        {
+        if (Constants::INVALID_ARGUMENT == $result['Code']) {
             throw new InvalidArgumentException($statusCode, $result['Message'], $exception, $result['Code'], $result['RequestId'], $result['HostId']);
         }
-        if ($result['Code'] == Constants::QUEUE_NOT_EXIST)
-        {
+        if (Constants::QUEUE_NOT_EXIST == $result['Code']) {
             throw new QueueNotExistException($statusCode, $result['Message'], $exception, $result['Code'], $result['RequestId'], $result['HostId']);
         }
-        if ($result['Code'] == Constants::RECEIPT_HANDLE_ERROR)
-        {
+        if (Constants::RECEIPT_HANDLE_ERROR == $result['Code']) {
             throw new ReceiptHandleErrorException($statusCode, $result['Message'], $exception, $result['Code'], $result['RequestId'], $result['HostId']);
         }
 
         throw new MnsException($statusCode, $result['Message'], $exception, $result['Code'], $result['RequestId'], $result['HostId']);
     }
 }
-
-?>

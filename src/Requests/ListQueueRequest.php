@@ -1,7 +1,6 @@
 <?php
-namespace AliyunMNS\Requests;
 
-use AliyunMNS\Requests\BaseRequest;
+namespace AliyunMNS\Requests;
 
 class ListQueueRequest extends BaseRequest
 {
@@ -9,7 +8,7 @@ class ListQueueRequest extends BaseRequest
     private $prefix;
     private $marker;
 
-    public function __construct($retNum = NULL, $prefix = NULL, $marker = NULL)
+    public function __construct($retNum = null, $prefix = null, $marker = null)
     {
         parent::__construct('get', 'queues');
 
@@ -26,13 +25,10 @@ class ListQueueRequest extends BaseRequest
     public function setRetNum($retNum)
     {
         $this->retNum = $retNum;
-        if ($retNum != NULL)
-        {
-            $this->setHeader("x-mns-ret-number", $retNum);
-        }
-        else
-        {
-            $this->removeHeader("x-mns-ret-number");
+        if (null != $retNum) {
+            $this->setHeader('x-mns-ret-number', $retNum);
+        } else {
+            $this->removeHeader('x-mns-ret-number');
         }
     }
 
@@ -44,13 +40,10 @@ class ListQueueRequest extends BaseRequest
     public function setPrefix($prefix)
     {
         $this->prefis = $prefix;
-        if ($prefix != NULL)
-        {
-            $this->setHeader("x-mns-prefix", $prefix);
-        }
-        else
-        {
-            $this->removeHeader("x-mns-prefix");
+        if (null != $prefix) {
+            $this->setHeader('x-mns-prefix', $prefix);
+        } else {
+            $this->removeHeader('x-mns-prefix');
         }
     }
 
@@ -62,25 +55,20 @@ class ListQueueRequest extends BaseRequest
     public function setMarker($marker)
     {
         $this->marker = $marker;
-        if ($marker != NULL)
-        {
-            $this->setHeader("x-mns-marker", $marker);
-        }
-        else
-        {
-            $this->removeHeader("x-mns-marker");
+        if (null != $marker) {
+            $this->setHeader('x-mns-marker', $marker);
+        } else {
+            $this->removeHeader('x-mns-marker');
         }
     }
 
     public function generateBody()
     {
-        return NULL;
+        return null;
     }
 
     public function generateQueryString()
     {
-        return NULL;
+        return null;
     }
 }
-
-?>

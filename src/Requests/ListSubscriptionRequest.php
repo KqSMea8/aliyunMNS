@@ -1,7 +1,6 @@
 <?php
-namespace AliyunMNS\Requests;
 
-use AliyunMNS\Requests\BaseRequest;
+namespace AliyunMNS\Requests;
 
 class ListSubscriptionRequest extends BaseRequest
 {
@@ -12,18 +11,18 @@ class ListSubscriptionRequest extends BaseRequest
 
     public function __construct(
         $topicName,
-        $retNum = NULL,
-        $prefix = NULL,
-        $marker = NULL)
+        $retNum = null,
+        $prefix = null,
+        $marker = null)
     {
-        parent::__construct('get', 'topics/' . $topicName . '/subscriptions');
+        parent::__construct('get', 'topics/'.$topicName.'/subscriptions');
 
         $this->topicName = $topicName;
         $this->setRetNum($retNum);
         $this->setPrefix($prefix);
         $this->setMarker($marker);
     }
-    
+
     public function getTopicName()
     {
         return $this->topicName;
@@ -37,13 +36,10 @@ class ListSubscriptionRequest extends BaseRequest
     public function setRetNum($retNum)
     {
         $this->retNum = $retNum;
-        if ($retNum != NULL)
-        {
-            $this->setHeader("x-mns-ret-number", $retNum);
-        }
-        else
-        {
-            $this->removeHeader("x-mns-ret-number");
+        if (null != $retNum) {
+            $this->setHeader('x-mns-ret-number', $retNum);
+        } else {
+            $this->removeHeader('x-mns-ret-number');
         }
     }
 
@@ -55,13 +51,10 @@ class ListSubscriptionRequest extends BaseRequest
     public function setPrefix($prefix)
     {
         $this->prefis = $prefix;
-        if ($prefix != NULL)
-        {
-            $this->setHeader("x-mns-prefix", $prefix);
-        }
-        else
-        {
-            $this->removeHeader("x-mns-prefix");
+        if (null != $prefix) {
+            $this->setHeader('x-mns-prefix', $prefix);
+        } else {
+            $this->removeHeader('x-mns-prefix');
         }
     }
 
@@ -73,25 +66,20 @@ class ListSubscriptionRequest extends BaseRequest
     public function setMarker($marker)
     {
         $this->marker = $marker;
-        if ($marker != NULL)
-        {
-            $this->setHeader("x-mns-marker", $marker);
-        }
-        else
-        {
-            $this->removeHeader("x-mns-marker");
+        if (null != $marker) {
+            $this->setHeader('x-mns-marker', $marker);
+        } else {
+            $this->removeHeader('x-mns-marker');
         }
     }
 
     public function generateBody()
     {
-        return NULL;
+        return null;
     }
 
     public function generateQueryString()
     {
-        return NULL;
+        return null;
     }
 }
-
-?>

@@ -1,7 +1,6 @@
 <?php
-namespace AliyunMNS\Requests;
 
-use AliyunMNS\Requests\BaseRequest;
+namespace AliyunMNS\Requests;
 
 class GetTopicAttributeRequest extends BaseRequest
 {
@@ -9,7 +8,7 @@ class GetTopicAttributeRequest extends BaseRequest
 
     public function __construct($topicName)
     {
-        parent::__construct('get', 'topics/' . $topicName);
+        parent::__construct('get', 'topics/'.$topicName);
 
         $this->topicName = $topicName;
     }
@@ -21,12 +20,11 @@ class GetTopicAttributeRequest extends BaseRequest
 
     public function generateBody()
     {
-        return NULL;
+        return null;
     }
 
     public function generateQueryString()
     {
-        return NULL;
+        return null;
     }
 }
-?>

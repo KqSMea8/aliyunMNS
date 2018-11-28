@@ -1,4 +1,5 @@
 <?php
+
 namespace AliyunMNS\Model;
 
 use AliyunMNS\Constants;
@@ -13,7 +14,7 @@ class AccountAttributes
     private $loggingBucket;
 
     public function __construct(
-        $loggingBucket = NULL)
+        $loggingBucket = null)
     {
         $this->loggingBucket = $loggingBucket;
     }
@@ -30,25 +31,21 @@ class AccountAttributes
 
     public function writeXML(\XMLWriter $xmlWriter)
     {
-        if ($this->loggingBucket !== NULL)
-        {
+        if (null !== $this->loggingBucket) {
             $xmlWriter->writeElement(Constants::LOGGING_BUCKET, $this->loggingBucket);
         }
     }
 
-    static public function fromXML(\XMLReader $xmlReader)
+    public static function fromXML(\XMLReader $xmlReader)
     {
-        $loggingBucket = NULL;
+        $loggingBucket = null;
 
-        while ($xmlReader->read())
-        {
-            if ($xmlReader->nodeType == \XMLReader::ELEMENT)
-            {
+        while ($xmlReader->read()) {
+            if (\XMLReader::ELEMENT == $xmlReader->nodeType) {
                 switch ($xmlReader->name) {
                 case 'LoggingBucket':
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $loggingBucket = $xmlReader->value;
                     }
                     break;
@@ -57,8 +54,7 @@ class AccountAttributes
         }
 
         $attributes = new AccountAttributes($loggingBucket);
+
         return $attributes;
     }
 }
-
-?>

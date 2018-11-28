@@ -1,9 +1,9 @@
 <?php
+
 namespace AliyunMNS\Responses;
 
-use AliyunMNS\Exception\MnsException;
-use AliyunMNS\Responses\BaseResponse;
 use AliyunMNS\Common\XMLParser;
+use AliyunMNS\Exception\MnsException;
 
 class ListQueueResponse extends BaseResponse
 {
@@ -12,13 +12,13 @@ class ListQueueResponse extends BaseResponse
 
     public function __construct()
     {
-        $this->queueNames = array();
-        $this->nextMarker = NULL;
+        $this->queueNames = [];
+        $this->nextMarker = null;
     }
 
     public function isFinished()
     {
-        return $this->nextMarker == NULL;
+        return null == $this->nextMarker;
     }
 
     public function getQueueNames()
@@ -34,32 +34,29 @@ class ListQueueResponse extends BaseResponse
     public function parseResponse($statusCode, $content)
     {
         $this->statusCode = $statusCode;
-        if ($statusCode != 200) {
+        if (200 != $statusCode) {
             $this->parseErrorResponse($statusCode, $content);
+
             return;
         }
 
-        $this->succeed = TRUE;
+        $this->succeed = true;
         $xmlReader = $this->loadXmlContent($content);
 
         try {
-            while ($xmlReader->read())
-            {
-                if ($xmlReader->nodeType == \XMLReader::ELEMENT)
-                {
+            while ($xmlReader->read()) {
+                if (\XMLReader::ELEMENT == $xmlReader->nodeType) {
                     switch ($xmlReader->name) {
                     case 'QueueURL':
                         $xmlReader->read();
-                        if ($xmlReader->nodeType == \XMLReader::TEXT)
-                        {
+                        if (\XMLReader::TEXT == $xmlReader->nodeType) {
                             $queueName = $this->getQueueNameFromQueueURL($xmlReader->value);
                             $this->queueNames[] = $queueName;
                         }
                         break;
                     case 'NextMarker':
                         $xmlReader->read();
-                        if ($xmlReader->nodeType == \XMLReader::TEXT)
-                        {
+                        if (\XMLReader::TEXT == $xmlReader->nodeType) {
                             $this->nextMarker = $xmlReader->value;
                         }
                         break;
@@ -75,17 +72,17 @@ class ListQueueResponse extends BaseResponse
 
     private function getQueueNameFromQueueURL($queueURL)
     {
-        $pieces = explode("/", $queueURL);
-        if (count($pieces) == 5)
-        {
+        $pieces = explode('/', $queueURL);
+        if (5 == count($pieces)) {
             return $pieces[4];
         }
-        return "";
+
+        return '';
     }
 
-    public function parseErrorResponse($statusCode, $content, MnsException $exception = NULL)
+    public function parseErrorResponse($statusCode, $content, MnsException $exception = null)
     {
-        $this->succeed = FALSE;
+        $this->succeed = false;
         $xmlReader = $this->loadXmlContent($content);
 
         try {
@@ -93,9 +90,9 @@ class ListQueueResponse extends BaseResponse
 
             throw new MnsException($statusCode, $result['Message'], $exception, $result['Code'], $result['RequestId'], $result['HostId']);
         } catch (\Exception $e) {
-            if ($exception != NULL) {
+            if (null != $exception) {
                 throw $exception;
-            } elseif($e instanceof MnsException) {
+            } elseif ($e instanceof MnsException) {
                 throw $e;
             } else {
                 throw new MnsException($statusCode, $e->getMessage());
@@ -105,5 +102,3 @@ class ListQueueResponse extends BaseResponse
         }
     }
 }
-
-?>

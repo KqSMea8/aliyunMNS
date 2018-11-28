@@ -1,8 +1,6 @@
 <?php
-namespace AliyunMNS\Requests;
 
-use AliyunMNS\Constants;
-use AliyunMNS\Requests\BaseRequest;
+namespace AliyunMNS\Requests;
 
 class BatchReceiveMessageRequest extends BaseRequest
 {
@@ -10,11 +8,11 @@ class BatchReceiveMessageRequest extends BaseRequest
     private $numOfMessages;
     private $waitSeconds;
 
-    public function __construct($numOfMessages, $waitSeconds = NULL)
+    public function __construct($numOfMessages, $waitSeconds = null)
     {
-        parent::__construct('get', NULL);
+        parent::__construct('get', null);
 
-        $this->queueName = NULL;
+        $this->queueName = null;
         $this->numOfMessages = $numOfMessages;
         $this->waitSeconds = $waitSeconds;
     }
@@ -22,7 +20,7 @@ class BatchReceiveMessageRequest extends BaseRequest
     public function setQueueName($queueName)
     {
         $this->queueName = $queueName;
-        $this->resourcePath = 'queues/' . $queueName . '/messages';
+        $this->resourcePath = 'queues/'.$queueName.'/messages';
     }
 
     public function getQueueName()
@@ -42,17 +40,16 @@ class BatchReceiveMessageRequest extends BaseRequest
 
     public function generateBody()
     {
-        return NULL;
+        return null;
     }
 
     public function generateQueryString()
     {
-        $params = array("numOfMessages" => $this->numOfMessages);
-        if ($this->waitSeconds != NULL)
-        {
-            $params["waitseconds"] = $this->waitSeconds;
+        $params = ['numOfMessages' => $this->numOfMessages];
+        if (null != $this->waitSeconds) {
+            $params['waitseconds'] = $this->waitSeconds;
         }
+
         return http_build_query($params);
     }
 }
-?>

@@ -1,8 +1,8 @@
 <?php
+
 namespace AliyunMNS\Requests;
 
 use AliyunMNS\Constants;
-use AliyunMNS\Requests\BaseRequest;
 use AliyunMNS\Model\QueueAttributes;
 
 class SetQueueAttributeRequest extends BaseRequest
@@ -10,13 +10,12 @@ class SetQueueAttributeRequest extends BaseRequest
     private $queueName;
     private $attributes;
 
-    public function __construct($queueName, QueueAttributes $attributes = NULL)
+    public function __construct($queueName, QueueAttributes $attributes = null)
     {
-        parent::__construct('put', 'queues/' . $queueName . '?metaoverride=true');
+        parent::__construct('put', 'queues/'.$queueName.'?metaoverride=true');
 
-        if ($attributes == NULL)
-        {
-            $attributes = new QueueAttributes;
+        if (null == $attributes) {
+            $attributes = new QueueAttributes();
         }
 
         $this->queueName = $queueName;
@@ -35,19 +34,19 @@ class SetQueueAttributeRequest extends BaseRequest
 
     public function generateBody()
     {
-        $xmlWriter = new \XMLWriter;
+        $xmlWriter = new \XMLWriter();
         $xmlWriter->openMemory();
-        $xmlWriter->startDocument("1.0", "UTF-8");
-        $xmlWriter->startElementNS(NULL, "Queue", Constants::MNS_XML_NAMESPACE);
+        $xmlWriter->startDocument('1.0', 'UTF-8');
+        $xmlWriter->startElementNS(null, 'Queue', Constants::MNS_XML_NAMESPACE);
         $this->attributes->writeXML($xmlWriter);
         $xmlWriter->endElement();
         $xmlWriter->endDocument();
+
         return $xmlWriter->outputMemory();
     }
 
     public function generateQueryString()
     {
-        return NULL;
+        return null;
     }
 }
-?>

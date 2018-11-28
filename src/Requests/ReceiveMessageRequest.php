@@ -1,17 +1,15 @@
 <?php
-namespace AliyunMNS\Requests;
 
-use AliyunMNS\Constants;
-use AliyunMNS\Requests\BaseRequest;
+namespace AliyunMNS\Requests;
 
 class ReceiveMessageRequest extends BaseRequest
 {
     private $queueName;
     private $waitSeconds;
 
-    public function __construct($queueName, $waitSeconds = NULL)
+    public function __construct($queueName, $waitSeconds = null)
     {
-        parent::__construct('get', 'queues/' . $queueName . '/messages');
+        parent::__construct('get', 'queues/'.$queueName.'/messages');
 
         $this->queueName = $queueName;
         $this->waitSeconds = $waitSeconds;
@@ -29,15 +27,13 @@ class ReceiveMessageRequest extends BaseRequest
 
     public function generateBody()
     {
-        return NULL;
+        return null;
     }
 
     public function generateQueryString()
     {
-        if ($this->waitSeconds != NULL)
-        {
-            return http_build_query(array("waitseconds" => $this->waitSeconds));
+        if (null != $this->waitSeconds) {
+            return http_build_query(['waitseconds' => $this->waitSeconds]);
         }
     }
 }
-?>

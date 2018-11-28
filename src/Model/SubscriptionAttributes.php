@@ -1,4 +1,5 @@
 <?php
+
 namespace AliyunMNS\Model;
 
 use AliyunMNS\Constants;
@@ -9,24 +10,24 @@ class SubscriptionAttributes
     private $strategy;
     private $contentFormat;
 
-    # may change in AliyunMNS\Topic
+    // may change in AliyunMNS\Topic
     private $topicName;
 
-    # the following attributes cannot be changed
+    // the following attributes cannot be changed
     private $subscriptionName;
     private $topicOwner;
     private $createTime;
     private $lastModifyTime;
 
     public function __construct(
-        $subscriptionName = NULL,
-        $endpoint = NULL,
-        $strategy = NULL,
-        $contentFormat = NULL,
-        $topicName = NULL,
-        $topicOwner = NULL,
-        $createTime = NULL,
-        $lastModifyTime = NULL)
+        $subscriptionName = null,
+        $endpoint = null,
+        $strategy = null,
+        $contentFormat = null,
+        $topicName = null,
+        $topicOwner = null,
+        $createTime = null,
+        $lastModifyTime = null)
     {
         $this->endpoint = $endpoint;
         $this->strategy = $strategy;
@@ -38,9 +39,9 @@ class SubscriptionAttributes
 
         $this->topicOwner = $topicOwner;
         $this->createTime = $createTime;
-        $this->lastModifyTime = $lastModifyTime; 
+        $this->lastModifyTime = $lastModifyTime;
     }
-    
+
     public function getEndpoint()
     {
         return $this->endpoint;
@@ -103,87 +104,75 @@ class SubscriptionAttributes
 
     public function writeXML(\XMLWriter $xmlWriter)
     {
-        if ($this->endpoint != NULL)
-        {
+        if (null != $this->endpoint) {
             $xmlWriter->writeElement(Constants::ENDPOINT, $this->endpoint);
         }
-        if ($this->strategy != NULL)
-        {
+        if (null != $this->strategy) {
             $xmlWriter->writeElement(Constants::STRATEGY, $this->strategy);
         }
-        if ($this->contentFormat != NULL)
-        {
+        if (null != $this->contentFormat) {
             $xmlWriter->writeElement(Constants::CONTENT_FORMAT, $this->contentFormat);
         }
     }
 
-    static public function fromXML(\XMLReader $xmlReader)
+    public static function fromXML(\XMLReader $xmlReader)
     {
-        $endpoint = NULL;
-        $strategy = NULL;
-        $contentFormat = NULL;
-        $topicOwner = NULL;
-        $topicName = NULL;
-        $createTime = NULL;
-        $lastModifyTime = NULL;
+        $endpoint = null;
+        $strategy = null;
+        $contentFormat = null;
+        $topicOwner = null;
+        $topicName = null;
+        $createTime = null;
+        $lastModifyTime = null;
 
-        while ($xmlReader->read())
-        {
-            if ($xmlReader->nodeType == \XMLReader::ELEMENT)
-            {
+        while ($xmlReader->read()) {
+            if (\XMLReader::ELEMENT == $xmlReader->nodeType) {
                 switch ($xmlReader->name) {
                 case 'TopicOwner':
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $topicOwner = $xmlReader->value;
                     }
                     break;
                 case 'TopicName':
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $topicName = $xmlReader->value;
                     }
                     break;
                 case 'SubscriptionName':
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $subscriptionName = $xmlReader->value;
                     }
+                    // no break
                 case 'Endpoint':
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $endpoint = $xmlReader->value;
                     }
                     break;
                 case 'NotifyStrategy':
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $strategy = $xmlReader->value;
                     }
                     break;
                 case 'NotifyContentFormat':
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $contentFormat = $xmlReader->value;
                     }
                     break;
                 case 'CreateTime':
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $createTime = $xmlReader->value;
                     }
                     break;
                 case 'LastModifyTime':
                     $xmlReader->read();
-                    if ($xmlReader->nodeType == \XMLReader::TEXT)
-                    {
+                    if (\XMLReader::TEXT == $xmlReader->nodeType) {
                         $lastModifyTime = $xmlReader->value;
                     }
                     break;
@@ -200,8 +189,7 @@ class SubscriptionAttributes
             $topicOwner,
             $createTime,
             $lastModifyTime);
+
         return $attributes;
     }
 }
-
-?>

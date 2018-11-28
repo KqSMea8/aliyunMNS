@@ -1,8 +1,8 @@
 <?php
+
 namespace AliyunMNS\Traits;
 
 use AliyunMNS\Constants;
-use AliyunMNS\Model\MessageAttributes;
 
 trait MessagePropertiesForPublish
 {
@@ -31,15 +31,11 @@ trait MessagePropertiesForPublish
 
     public function writeMessagePropertiesForPublishXML(\XMLWriter $xmlWriter)
     {
-        if ($this->messageBody != NULL)
-        {
+        if (null != $this->messageBody) {
             $xmlWriter->writeElement(Constants::MESSAGE_BODY, $this->messageBody);
         }
-        if ($this->messageAttributes !== NULL)
-        {
+        if (null !== $this->messageAttributes) {
             $this->messageAttributes->writeXML($xmlWriter);
         }
     }
 }
-
-?>
